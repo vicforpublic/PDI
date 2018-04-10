@@ -487,6 +487,10 @@ int main(int argvc, char** argv){
 }
 ~~~~
 
+Exemplo de entrada e saída:
+![elon](imgs/origin.png) | ![elon](imgs/laplaciano.png)
+![elon](imgs/laplaciano_gaussiano)
+
 ## 6.1. Exercícios
 
 todo
