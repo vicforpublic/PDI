@@ -490,10 +490,15 @@ int main(int argvc, char** argv){
 Exemplo de entrada e saída:
 
 ![elon](imgs/origin.png) 
+
 imagem original
+
 filtro laplaciano
+
 ![elon](imgs/laplaciano.png)
+
 filtro gaussiano
+
 ![elon](imgs/laplaciano_gaussiano.png)
 
 ## 6.1. Exercícios
