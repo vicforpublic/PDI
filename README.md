@@ -1,7 +1,6 @@
 # Atividades da Disciplina DCA0445
 
-## Aluno: Victor Cortez Trigueiro de Oliveira
-##	  Isaac Moreira Barbosa	
+## Aluno: Victor Cortez Trigueiro de Oliveira, Isaac Moreira Barbosa	
 
 ## Introdução
 
