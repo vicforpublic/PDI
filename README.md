@@ -377,6 +377,7 @@ void menu(){
 	"h - horizontal\n"
     "l - laplaciano\n"
     "c - laplaciano do gaussiano\n"
+    "c - laplaciano do gaussiano\n"
 	"esc - sair\n";
 }
 
@@ -397,6 +398,13 @@ int main(int argvc, char** argv){
   float lap[] =     {0,-1,0,
 					-1,4,-1,
 					0,-1,0};
+//Mascara 5x5 adquirida através da derivada a segunda do gaussiano
+  float lpgss[] =   {0,0,1,0,0,
+                     0,1,2,1,0,
+                     1,2,-16,2,1,
+                     0,1,2,1,0,
+                     0,0,1,0,0};
+
 
   Mat cap, frame, frame32f, frameFiltered;
   Mat mask(3,3,CV_32F), mask1;
@@ -467,11 +475,8 @@ int main(int argvc, char** argv){
       break;
     case 'c':
       menu();
-      mask = Mat(3, 3, CV_32F, lap);
-      result1 = Mat(3, 3, CV_32F, gauss);
-      mask = mask.mul(result1);
-      scaleAdd(mask, 1/16, Mat::zeros(3, 3, CV_32F), mask1);
-      mask = mask1;
+      //aplicação direta do filtro 5x5
+      mask = Mat(5, 5, CV_32F, lpgss);
       printmask(mask);
       break;  
     default:
