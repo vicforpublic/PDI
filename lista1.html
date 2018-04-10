@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
+</style>
+<style>
+/*! normalize.css v2.1.3 | MIT License | git.io/normalize */ /* ========================================================================== HTML5 display definitions ========================================================================== */ /** * Correct `block` display not defined in IE 8/9. */ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; } /** * Correct `inline-block` display not defined in IE 8/9. */ audio, canvas, video { display: inline-block; } /** * Prevent modern browsers from displaying `audio` without controls. * Remove excess height in iOS 5 devices. */ audio:not([controls]) { display: none; height: 0; } /** * Address `[hidden]` styling not present in IE 8/9. * Hide the `template` element in IE, Safari, and Firefox < 22. */ [hidden], template { display: none; } /* ========================================================================== Base ========================================================================== */ /** * 1. Set default font family to sans-serif. * 2. Prevent iOS text size adjust after orientation change, without disabling * user zoom. */ html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ } /** * Remove default margin. */ body { margin: 0; } /* ========================================================================== Links ========================================================================== */ /** * Remove the gray background color from active links in IE 10. */ a { background: transparent; } /** * Address `outline` inconsistency between Chrome and other browsers. */ a:focus { outline: thin dotted; } /** * Improve readability when focused and also mouse hovered in all browsers. */ a:active, a:hover { outline: 0; } /* ========================================================================== Typography ========================================================================== */ /** * Address variable `h1` font-size and margin within `section` and `article` * contexts in Firefox 4+, Safari 5, and Chrome. */ h1 { font-size: 2em; margin: 0.67em 0; } /** * Address styling not present in IE 8/9, Safari 5, and Chrome. */ abbr[title] { border-bottom: 1px dotted; } /** * Address style set to `bolder` in Firefox 4+, Safari 5, and Chrome. */ b, strong { font-weight: bold; } /** * Address styling not present in Safari 5 and Chrome. */ dfn { font-style: italic; } /** * Address differences between Firefox and other browsers. */ hr { -moz-box-sizing: content-box; box-sizing: content-box; height: 0; } /** * Address styling not present in IE 8/9. */ mark { background: #ff0; color: #000; } /** * Correct font family set oddly in Safari 5 and Chrome. */ code, kbd, pre, samp { font-family: monospace, serif; font-size: 1em; } /** * Improve readability of pre-formatted text in all browsers. */ pre { white-space: pre-wrap; } /** * Set consistent quote types. */ q { quotes: "\201C" "\201D" "\2018" "\2019"; } /** * Address inconsistent and variable font size in all browsers. */ small { font-size: 80%; } /** * Prevent `sub` and `sup` affecting `line-height` in all browsers. */ sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; } sup { top: -0.5em; } sub { bottom: -0.25em; } /* ========================================================================== Embedded content ========================================================================== */ /** * Remove border when inside `a` element in IE 8/9. */ img { border: 0; } /** * Correct overflow displayed oddly in IE 9. */ svg:not(:root) { overflow: hidden; } /* ========================================================================== Figures ========================================================================== */ /** * Address margin not present in IE 8/9 and Safari 5. */ figure { margin: 0; } /* ========================================================================== Forms ========================================================================== */ /** * Define consistent border, margin, and padding. */ fieldset { border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em; } /** * 1. Correct `color` not being inherited in IE 8/9. * 2. Remove padding so people aren't caught out if they zero out fieldsets. */ legend { border: 0; /* 1 */ padding: 0; /* 2 */ } /** * 1. Correct font family not being inherited in all browsers. * 2. Correct font size not being inherited in all browsers. * 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome. */ button, input, select, textarea { font-family: inherit; /* 1 */ font-size: 100%; /* 2 */ margin: 0; /* 3 */ } /** * Address Firefox 4+ setting `line-height` on `input` using `!important` in * the UA stylesheet. */ button, input { line-height: normal; } /** * Address inconsistent `text-transform` inheritance for `button` and `select`. * All other form control elements do not inherit `text-transform` values. * Correct `button` style inheritance in Chrome, Safari 5+, and IE 8+. * Correct `select` style inheritance in Firefox 4+ and Opera. */ button, select { text-transform: none; } /** * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` * and `video` controls. * 2. Correct inability to style clickable `input` types in iOS. * 3. Improve usability and consistency of cursor style between image-type * `input` and others. */ button, html input[type="button"], /* 1 */ input[type="reset"], input[type="submit"] { -webkit-appearance: button; /* 2 */ cursor: pointer; /* 3 */ } /** * Re-set default cursor for disabled elements. */ button[disabled], html input[disabled] { cursor: default; } /** * 1. Address box sizing set to `content-box` in IE 8/9/10. * 2. Remove excess padding in IE 8/9/10. */ input[type="checkbox"], input[type="radio"] { box-sizing: border-box; /* 1 */ padding: 0; /* 2 */ } /** * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome. * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome * (include `-moz` to future-proof). */ input[type="search"] { -webkit-appearance: textfield; /* 1 */ -moz-box-sizing: content-box; -webkit-box-sizing: content-box; /* 2 */ box-sizing: content-box; } /** * Remove inner padding and search cancel button in Safari 5 and Chrome * on OS X. */ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; } /** * Remove inner padding and border in Firefox 4+. */ button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; } /** * 1. Remove default vertical scrollbar in IE 8/9. * 2. Improve readability and alignment in all browsers. */ textarea { overflow: auto; /* 1 */ vertical-align: top; /* 2 */ } /* ========================================================================== Tables ========================================================================== */ /** * Remove most spacing between table cells. */ table { border-collapse: collapse; border-spacing: 0; } .go-top { position: fixed; bottom: 2em; right: 2em; text-decoration: none; background-color: #E0E0E0; font-size: 12px; padding: 1em; display: inline; } /* Github css */ html,body{ margin: auto; padding-right: 1em; padding-left: 1em; max-width: 44em; color:black;}*:not('#mkdbuttons'){margin:0;padding:0}body{font:13.34px helvetica,arial,freesans,clean,sans-serif;-webkit-font-smoothing:subpixel-antialiased;line-height:1.4;padding:3px;background:#fff;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}p{margin:1em 0}a{color:#4183c4;text-decoration:none}body{background-color:#fff;padding:30px;margin:15px;font-size:14px;line-height:1.6}body>*:first-child{margin-top:0!important}body>*:last-child{margin-bottom:0!important}@media screen{body{box-shadow:0 0 0 1px #cacaca,0 0 0 4px #eee}}h1,h2,h3,h4,h5,h6{margin:20px 0 10px;padding:0;font-weight:bold;-webkit-font-smoothing:subpixel-antialiased;cursor:text}h1{font-size:28px;color:#000}h2{font-size:24px;border-bottom:1px solid #ccc;color:#000}h3{font-size:18px;color:#333}h4{font-size:16px;color:#333}h5{font-size:14px;color:#333}h6{color:#777;font-size:14px}p,blockquote,table,pre{margin:15px 0}ul{padding-left:30px}ol{padding-left:30px}ol li ul:first-of-type{margin-top:0}hr{background:transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;border:0 none;color:#ccc;height:4px;padding:0}body>h2:first-child{margin-top:0;padding-top:0}body>h1:first-child{margin-top:0;padding-top:0}body>h1:first-child+h2{margin-top:0;padding-top:0}body>h3:first-child,body>h4:first-child,body>h5:first-child,body>h6:first-child{margin-top:0;padding-top:0}a:first-child h1,a:first-child h2,a:first-child h3,a:first-child h4,a:first-child h5,a:first-child h6{margin-top:0;padding-top:0}h1+p,h2+p,h3+p,h4+p,h5+p,h6+p,ul li>:first-child,ol li>:first-child{margin-top:0}dl{padding:0}dl dt{font-size:14px;font-weight:bold;font-style:italic;padding:0;margin:15px 0 5px}dl dt:first-child{padding:0}dl dt>:first-child{margin-top:0}dl dt>:last-child{margin-bottom:0}dl dd{margin:0 0 15px;padding:0 15px}dl dd>:first-child{margin-top:0}dl dd>:last-child{margin-bottom:0}blockquote{border-left:4px solid #DDD;padding:0 15px;color:#777}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}table{border-collapse:collapse;border-spacing:0;font-size:100%;font:inherit}table th{font-weight:bold;border:1px solid #ccc;padding:6px 13px}table td{border:1px solid #ccc;padding:6px 13px}table tr{border-top:1px solid #ccc;background-color:#fff}table tr:nth-child(2n){background-color:#f8f8f8}img{max-width:100%}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px;font-family:Consolas,'Liberation Mono',Courier,monospace;font-size:12px;color:#333}pre>code{margin:0;padding:0;white-space:pre;border:0;background:transparent}.highlight pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre code,pre tt{background-color:transparent;border:0}.poetry pre{font-family:Georgia,Garamond,serif!important;font-style:italic;font-size:110%!important;line-height:1.6em;display:block;margin-left:1em}.poetry pre code{font-family:Georgia,Garamond,serif!important;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;white-space:pre-wrap}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;vertical-align:super;position:relative}sub{vertical-align:sub;top:-1px}@media print{body{background:#fff}img,pre,blockquote,table,figure{page-break-inside:avoid}body{background:#fff;border:0}code{background-color:#fff;color:#333!important;padding:0 .2em;border:1px solid #dedede}pre{background:#fff}pre code{background-color:white!important;overflow:visible}}@media screen{body.inverted{color:#eee!important;border-color:#555;box-shadow:none}.inverted body,.inverted hr .inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt,.inverted blockquote{color:#eee!important;border-color:#555;box-shadow:none}.inverted td,.inverted th{background:#333}.inverted h2{border-color:#555}.inverted hr{border-color:#777;border-width:1px!important}::selection{background:rgba(157,193,200,0.5)}h1::selection{background-color:rgba(45,156,208,0.3)}h2::selection{background-color:rgba(90,182,224,0.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,0.3)}code::selection{background-color:rgba(0,0,0,0.7);color:#eee}code span::selection{background-color:rgba(0,0,0,0.7)!important;color:#eee!important}a::selection{background-color:rgba(255,230,102,0.2)}.inverted a::selection{background-color:rgba(255,230,102,0.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,0.5)}.inverted{background:#0b2531;background:#252a2a}.inverted body{background:#252a2a}.inverted a{color:#acd1d5}}.highlight .c{color:#998;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k,.highlight .o{font-weight:bold}.highlight .cm{color:#998;font-style:italic}.highlight .cp{color:#999;font-weight:bold}.highlight .c1{color:#998;font-style:italic}.highlight .cs{color:#999;font-weight:bold;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:bold}.highlight .gu{color:#800080;font-weight:bold}.highlight .gt{color:#a00}.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{font-weight:bold}.highlight .kt{color:#458;font-weight:bold}.highlight .m{color:#099}.highlight .s{color:#d14}.highlight .na{color:#008080}.highlight .nb{color:#0086b3}.highlight .nc{color:#458;font-weight:bold}.highlight .no{color:#008080}.highlight .ni{color:#800080}.highlight .ne,.highlight .nf{color:#900;font-weight:bold}.highlight .nn{color:#555}.highlight .nt{color:#000080}.highlight .nv{color:#008080}.highlight .ow{font-weight:bold}.highlight .w{color:#bbb}.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:#099}.highlight .sb,.highlight .sc,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc,.highlight .vg,.highlight .vi{color:#008080}.highlight .il{color:#099}.highlight .gc{color:#999;background-color:#eaf2f5}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:#00F}.type-csharp .highlight .nf{color:#000;font-weight:normal}.type-csharp .highlight .nc{color:#2b91af}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#a31515} 
+</style>
+<style>
+h1 { color: black; } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(128, 128, 128, 1); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(192, 192, 192, 1); }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="atividades-da-disciplina-dca0445">Atividades da Disciplina DCA0445</h1>
+<h2 id="aluno--victor-cortez-trigueiro-de-oliveira">Aluno: Victor Cortez Trigueiro de Oliveira</h2>
+<h2 id="introducao">Introdução</h2>
+<p>Esta pagina foi escrita em linguagem markdown com o objetivo de apresentar as atividades propostas para a primeira unidade do curso de Processamento digital de imagens. <strong>Para executar os codigos descritos abaixo é necessario salvar um arquivo .cpp contendo o codigo e, na mesma pasta, um arquivo <a href="files/makefile">makefile</a>. usando um terminal, execute a sequencia de comandos(linux):</strong></p>
+<pre><code>$ make <Nome_do_arquivo_cpp>
+$ ./<Nome_do_arquivo_cpp>
+</code></pre>
+<h2 id="22-exercicios">2.2. Exercícios</h2>
+<ul>
+<li>Utilizando o programa pixels.cpp como referência, implemente um programa regions.cpp. Esse programa deverá solicitar ao usuário as coordenadas de dois pontos <em>P1</em> e <em>P2</em> localizados dentro dos limites do tamanho da imagem e exibir que lhe for fornecida. Entretanto, a região definida pelo retângulo de vértices opostos definidos pelos pontos <em>P1</em> e <em>P2</em> será exibida com o negativo da imagem na região correspondente.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+author: victor cortez
+This program was made to exemplify image manipulation
+using C++ and opencv on a linux.
+It asks for an initial and final point and reverses the
+(grayscale) image in the square between the points.
+*/</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;opencv2/opencv.hpp&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span>
+{
+    <span class="hljs-keyword">int</span> x;
+    <span class="hljs-keyword">int</span> y;
+} MyPoint;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">char</span> **)</span>
+</span>{
+    Vec3b val; <span class="hljs-comment">//unused</span>
+
+    Mat image;
+    image = imread(<span class="hljs-string">"biel.png"</span>, CV_LOAD_IMAGE_GRAYSCALE);
+    <span class="hljs-keyword">if</span> (!image.data)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"nao abriu"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    }
+    namedWindow(<span class="hljs-string">"janela"</span>, WINDOW_AUTOSIZE);
+
+    MyPoint pointA, pointB;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"type the x, y coordinates for point 1"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cin</span> &gt;&gt; pointA.x &gt;&gt; pointA.y;
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"type the x, y coordinates for point 2"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cin</span> &gt;&gt; pointB.x &gt;&gt; pointB.y;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = pointA.x; i &lt; pointB.x; i++)
+    {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = pointA.y; j &lt; pointB.y; j++)
+        {
+            image.at&lt;uchar&gt;(i, j) = <span class="hljs-number">255</span>-image.at&lt;uchar&gt;(i, j);
+        }
+    }
+
+    imshow(<span class="hljs-string">"janela"</span>, image);
+    waitKey();
+    imwrite(<span class="hljs-string">"regionsOUT.png"</span>, image);
+    waitKey();
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>Exemplo de entrada e saída:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Entrada</th>
+<th style="text-align:center">Saída</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/biel.png" alt="biel"></td>
+<td style="text-align:center"><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/regionsOUT.png" alt="bielOUT"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Utilizando o programa pixels.cpp como referência, implemente um programa trocaregioes.cpp. Seu programa deverá trocar os quadrantes em diagonal na imagem. Explore o uso da classe Mat e seus construtores para criar as regiões que serão trocadas.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">/*
+author: victor cortez
+This program was made to swap the quadrants 1 with 4 and 2
+with 3 in a grayscale image
+*/</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;opencv2/opencv.hpp&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span>
+{
+    <span class="hljs-keyword">int</span> x;
+    <span class="hljs-keyword">int</span> y;
+} MyPoint;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">char</span> **)</span>
+</span>{
+    Vec3b val; <span class="hljs-comment">//unused</span>
+
+    Mat image;
+    image = imread(<span class="hljs-string">"elon.png"</span>, CV_LOAD_IMAGE_GRAYSCALE);
+    <span class="hljs-keyword">if</span> (!image.data)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"nao abriu"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    }
+    namedWindow(<span class="hljs-string">"janela"</span>, WINDOW_AUTOSIZE);
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"the image has(h,w):"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt;image.size().height &lt;&lt; <span class="hljs-string">" "</span> &lt;&lt; image.size().width;
+
+    <span class="hljs-comment">//getting the first quadrant and saving in a rect structure</span>
+    <span class="hljs-comment">//**the two ending coordinates are RELATIVE to the two</span>
+    <span class="hljs-comment">//initial ones!</span>
+    <span class="hljs-comment">//*the order is: columns, rows</span>
+    Rect rect = Rect(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>, image.cols/<span class="hljs-number">2</span>, image.rows/<span class="hljs-number">2</span>);
+    <span class="hljs-comment">//or Rect rect(0,0, image.rows/2, image.cols/2)</span>
+
+    <span class="hljs-comment">//this is actually referencing the main image. we need to COPY the roi.</span>
+    <span class="hljs-comment">//used if we wanted to work on the original image.</span>
+    <span class="hljs-comment">//Mat tempImg = image(rect);</span>
+
+    <span class="hljs-comment">//getting a copy of the first quadrant</span>
+    Mat temp_img = image(rect).clone();
+
+    <span class="hljs-comment">//copy exerpt of 4th quadrant to 1st</span>
+    image(Rect(image.cols/<span class="hljs-number">2</span>,image.rows/<span class="hljs-number">2</span>,image.cols/<span class="hljs-number">2</span>,image.rows/<span class="hljs-number">2</span>))
+    .copyTo(image(rect));
+
+    <span class="hljs-comment">//copy exerpt of 1st to 4th</span>
+    temp_img
+    .copyTo(image(Rect(image.cols/<span class="hljs-number">2</span>,image.rows/<span class="hljs-number">2</span>,image.cols/<span class="hljs-number">2</span>,image.rows/<span class="hljs-number">2</span>)));
+
+    <span class="hljs-comment">//same with 2nd and 3rd quadrants</span>
+    rect = Rect(image.cols/<span class="hljs-number">2</span>,<span class="hljs-number">0</span>, image.rows/<span class="hljs-number">2</span>, image.cols/<span class="hljs-number">2</span>);
+    temp_img = image(rect).clone();
+    image(Rect(<span class="hljs-number">0</span>,image.rows/<span class="hljs-number">2</span>,image.cols/<span class="hljs-number">2</span>,image.rows/<span class="hljs-number">2</span>))
+    .copyTo(image(rect));
+    temp_img
+    .copyTo(image(Rect(<span class="hljs-number">0</span>,image.rows/<span class="hljs-number">2</span>,image.cols/<span class="hljs-number">2</span>,image.rows/<span class="hljs-number">2</span>)));
+
+    imshow(<span class="hljs-string">"janela"</span>, image);
+    waitKey();
+    imwrite(<span class="hljs-string">"trocaregioesOUT.png"</span>, image);
+
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>Exemplo de entrada e saída:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Entrada</th>
+<th style="text-align:center">Saída</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/elon.png" alt="elon"></td>
+<td style="text-align:center"><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/trocaregioesOUT.png" alt="elonOUT"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="32-exercicios">3.2 Exercícios</h2>
+<ul>
+<li>Observando-se o programa labeling.cpp como exemplo, é possível verificar que caso existam mais de 255 objetos na cena, o processo de rotulação poderá ficar comprometido. Identifique a situação em que isso ocorre e proponha uma solução para este problema.</li>
+</ul>
+<p>Para conseguir rotular mais de 255 objetos namesma imagem, iremos simplesmente utilizar o modulo 255 para repetir os tons de cinza ja usados quando ilustrarmos a imagem. Deste modo a contagem de cores continuará acontecendo corretamente e apenas a exibiçao será modificada.</p>
+<ul>
+<li>Aprimore o algoritmo de contagem apresentado para identificar regiões com ou sem buracos internos que existam na cena. Assuma que objetos com mais de um buraco podem existir. Inclua suporte no seu algoritmo para não contar bolhas que tocam as bordas da imagem. Não se pode presumir, a priori, que elas tenham buracos ou não.</li>
+</ul>
+<p>Agora precisamos contar quantos objetos tem furos. para resolver esse problema, iremos primeiro ignorar os objetos que tocam a borda ao pintar a borda de branco e aplicar o algoritmo floodfill na borda, pintando os pixels brancos de preto.</p>
+<p>Depois, iremos identificar os objetos com furos ao inverter o fundo da imagem, assim os furos continuarão pretos. sempre que encontrarmos um pixel preto, aplicaremos floodfill preto nos pixels adjacentes. neste caso, ignoraremos o nivel de cinza que representa o numero de imagens e mostraremos apenas o resultado após o floodfill.</p>
+<p>Exemplo de entrada e saída:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Entrada</th>
+<th style="text-align:center">Saída</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/bolhas.png" alt="elon"></td>
+<td style="text-align:center"><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/labelingOUT.png" alt="elonOUT"></td>
+</tr>
+</tbody>
+</table>
+<p><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/labelnumber.png" alt="elon"></p>
+<h2 id="42-exercicios">4.2. Exercícios</h2>
+<ul>
+<li>Utilizando o programa histogram.cpp como referência, implemente um programa equalize.cpp. Este deverá, para cada imagem capturada, realizar a equalização do histogram antes de exibir a imagem. Teste sua implementação apontando a câmera para ambientes com iluminações variadas e observando o efeito gerado. Assuma que as imagens processadas serão em tons de cinza.</li>
+</ul>
+<p>Pela impossibilidade de utilizar uma camera, iremos trabalhar com uma imagem. Escolhemos trabalhar com uma imagem em niveis de cinza.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;opencv2/opencv.hpp&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span></span>{
+  Mat image;
+  <span class="hljs-keyword">int</span> width, height;
+  <span class="hljs-built_in">vector</span>&lt;Mat&gt; planes;
+  <span class="hljs-keyword">int</span> nbins = <span class="hljs-number">64</span>;
+  <span class="hljs-keyword">float</span> range[] = {<span class="hljs-number">0</span>, <span class="hljs-number">256</span>};
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> *histrange = { range };
+  <span class="hljs-keyword">bool</span> uniform = <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">bool</span> acummulate = <span class="hljs-literal">false</span>;
+
+    image = imread(<span class="hljs-string">"elon.png"</span>, CV_LOAD_IMAGE_GRAYSCALE);
+    <span class="hljs-keyword">if</span> (!image.data)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"nao abriu"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    }
+    namedWindow(<span class="hljs-string">"janela"</span>, WINDOW_AUTOSIZE);  
+  
+  width  = image.size().width;
+  height = image.size().height;
+
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"largura = "</span> &lt;&lt; width &lt;&lt; <span class="hljs-built_in">endl</span>;
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"altura  = "</span> &lt;&lt; height &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+  <span class="hljs-keyword">int</span> histw = nbins, histh = nbins/<span class="hljs-number">2</span>;
+  <span class="hljs-comment">//equalization for one channel</span>
+  <span class="hljs-function">Mat <span class="hljs-title">histImg</span><span class="hljs-params">(histh, histw, CV_8UC1, Scalar(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)</span>)</span>;
+  <span class="hljs-function">Mat <span class="hljs-title">histImgEQ</span><span class="hljs-params">(histh, histw, CV_8UC1, Scalar(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)</span>)</span>;
+  Mat eq;
+  equalizeHist(image, eq);
+  Mat hist, histEQ;
+    calcHist(&amp;image, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, Mat(), hist, <span class="hljs-number">1</span>,
+             &amp;nbins, &amp;histrange,
+             uniform, acummulate);
+    calcHist(&amp;eq, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, Mat(), histEQ, <span class="hljs-number">1</span>,
+             &amp;nbins, &amp;histrange,
+             uniform, acummulate);
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"chegou aqui"</span>;
+
+    normalize(hist, hist, <span class="hljs-number">0</span>, histImg.rows, NORM_MINMAX, <span class="hljs-number">-1</span>, Mat());
+    normalize(histEQ, histEQ, <span class="hljs-number">0</span>, histImgEQ.rows, NORM_MINMAX, <span class="hljs-number">-1</span>, Mat());
+
+    histImg.setTo(Scalar(<span class="hljs-number">0</span>));
+    histImgEQ.setTo(Scalar(<span class="hljs-number">0</span>));
+    
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;nbins; i++){
+      line(histImg,
+           Point(i, histh),
+           Point(i, histh-cvRound(hist.at&lt;<span class="hljs-keyword">float</span>&gt;(i))),
+           Scalar(<span class="hljs-number">255</span>), <span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">0</span>);
+      line(histImgEQ,
+           Point(i, histh),
+           Point(i, histh-cvRound(histEQ.at&lt;<span class="hljs-keyword">float</span>&gt;(i))),
+           Scalar(<span class="hljs-number">255</span>), <span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">0</span>);
+    }
+    histImg.copyTo(image(Rect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>       ,nbins, histh)));
+    histImgEQ.copyTo(eq(Rect(<span class="hljs-number">0</span>, histh   ,nbins, histh)));
+    imshow(<span class="hljs-string">"image"</span>, image);
+    imshow(<span class="hljs-string">"eq"</span>, eq);
+    imwrite(<span class="hljs-string">"equalize.png"</span>, image);
+    imwrite(<span class="hljs-string">"equalizeeq.png"</span>, eq);
+    waitKey();
+
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+</div></code></pre>
+<p>Exemplo de entrada e saída:</p>
+<p><img src="file:///c%3A/Users/victor/Google%20Drive/profissional%20-%20academico/UFRN/9%20sem/PDI/U1/lista1IntegratedPreview/imgs/eq.png" alt="elon"></p>
+<ul>
+<li>Utilizando o programa histogram.cpp como referência, implemente um programa motiondetector.cpp. Este deverá continuamente calcular o histograma da imagem (apenas uma componente de cor é suficiente) e compará-lo com o último histograma calculado. Quando a diferença entre estes ultrapassar um limiar pré-estabelecido, ative um alarme. Utilize uma função de comparação que julgar conveniente.</li>
+</ul>
+<p>Iremos exemplificar o funcionamento com as imagens anteriores.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)</span></span>{
+  Mat image,oldImage;
+  <span class="hljs-keyword">int</span> width, height;
+  <span class="hljs-built_in">vector</span>&lt;Mat&gt; planes;
+  <span class="hljs-keyword">int</span> nbins = <span class="hljs-number">64</span>;
+  <span class="hljs-keyword">float</span> range[] = {<span class="hljs-number">0</span>, <span class="hljs-number">256</span>};
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> *histrange = { range };
+  <span class="hljs-keyword">bool</span> uniform = <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">bool</span> acummulate = <span class="hljs-literal">false</span>;
+
+<span class="hljs-comment">//com uma webcam estariamos comparando o frame anterior</span>
+<span class="hljs-comment">//neste caso estamos comparando duas imagens.</span>
+    oldImage = imread(<span class="hljs-string">"elon.png"</span>, CV_LOAD_IMAGE_GRAYSCALE);
+    <span class="hljs-keyword">if</span> (!oldImage.data)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"nao abriu"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    }
+    image = imread(<span class="hljs-string">"equalizeeq.png"</span>, CV_LOAD_IMAGE_GRAYSCALE);
+    <span class="hljs-keyword">if</span> (!image.data)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"nao abriu"</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    }
+    namedWindow(<span class="hljs-string">"janela"</span>, WINDOW_AUTOSIZE);  
+  
+  width  = image.size().width;
+  height = image.size().height;
+
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"largura = "</span> &lt;&lt; width &lt;&lt; <span class="hljs-built_in">endl</span>;
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"altura  = "</span> &lt;&lt; height &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+  <span class="hljs-keyword">int</span> histw = nbins, histh = nbins/<span class="hljs-number">2</span>;
+  
+  <span class="hljs-function">Mat <span class="hljs-title">histImg</span><span class="hljs-params">(histh, histw, CV_8UC1, Scalar(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)</span>)</span>;
+  Mat hist, oldHist;
+  calcHist(&amp;image, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, Mat(), hist, <span class="hljs-number">1</span>,
+             &amp;nbins, &amp;histrange,
+             uniform, acummulate);
+  
+
+  normalize(hist, hist, <span class="hljs-number">0</span>, histImg.rows, NORM_MINMAX, <span class="hljs-number">-1</span>, Mat());
+  calcHist(&amp;oldImage, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, Mat(), oldHist, <span class="hljs-number">1</span>,
+             &amp;nbins, &amp;histrange,
+             uniform, acummulate);
+
+  normalize(oldHist, oldHist, <span class="hljs-number">0</span>, histImg.rows, NORM_MINMAX, <span class="hljs-number">-1</span>, Mat());
+
+  histImg.setTo(Scalar(<span class="hljs-number">0</span>));
+
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;nbins; i++){
+      line(histImg,
+           Point(i, histh),
+           Point(i, histh-cvRound(hist.at&lt;<span class="hljs-keyword">float</span>&gt;(i))),
+           Scalar(<span class="hljs-number">255</span>), <span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">0</span>);
+    }
+    histImg.copyTo(image(Rect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>       ,nbins, histh)));
+
+
+    <span class="hljs-comment">//at the end of the printing process, check if the two images</span>
+    <span class="hljs-comment">//correlate.</span>
+    <span class="hljs-keyword">if</span>(motionDetected(hist, oldHist)){
+      <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"ALARM"</span>&lt;&lt;<span class="hljs-built_in">endl</span>;
+    }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>Com algumas modificaçoes no codigo anterior podemos chamar uma funçao de comparação ao fim de cada loop.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">motionDetected</span><span class="hljs-params">(Mat beforeHist, Mat afterHist)</span></span>{
+  <span class="hljs-comment">//comparing histogram based on correlation.</span>
+  <span class="hljs-keyword">double</span> correl = compareHist(beforeHist, afterHist, CV_COMP_CORREL);
+  <span class="hljs-built_in">cout</span> &lt;&lt; correl &lt;&lt; <span class="hljs-built_in">endl</span>;
+  <span class="hljs-keyword">if</span>(correl &lt; <span class="hljs-number">0.98</span>){
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  }
+}
+</div></code></pre>
+<h2 id="52-exercicios">5.2. Exercícios</h2>
+<ul>
+<li>Utilizando o programa exemplos/filtroespacial.cpp como referência, implemente um programa laplgauss.cpp. O programa deverá acrescentar mais uma funcionalidade ao exemplo fornecido, permitindo que seja calculado o laplaciano do gaussiano das imagens capturadas. Compare o resultado desse filtro com a simples aplicação do filtro laplaciano.</li>
+</ul>
+<p>Para este problema, é uma simples questão de passar o filtro de laplace na imagem resultante apos aplicar o filtro de gauss.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argvc, <span class="hljs-keyword">char</span>** argv)</span></span>{
+  VideoCapture video;
+  <span class="hljs-keyword">float</span> media[] = {<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,
+				   <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,
+				   <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>};
+  <span class="hljs-keyword">float</span> gauss[] = {<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,
+				   <span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,
+				   <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>};
+  <span class="hljs-keyword">float</span> horizontal[]={<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,
+					  <span class="hljs-number">-2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,
+					  <span class="hljs-number">-1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>};
+  <span class="hljs-keyword">float</span> vertical[]={<span class="hljs-number">-1</span>,<span class="hljs-number">-2</span>,<span class="hljs-number">-1</span>,
+					<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,
+					<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>};
+  <span class="hljs-keyword">float</span> laplacian[]={<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>,
+					 <span class="hljs-number">-1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">-1</span>,
+					 <span class="hljs-number">0</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>};
+
+  Mat cap, frame, frame32f, frameFiltered;
+  <span class="hljs-function">Mat <span class="hljs-title">mask</span><span class="hljs-params">(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,CV_32F)</span>, mask1</span>;
+  Mat result, result1;
+  <span class="hljs-keyword">double</span> width, height, min, max;
+  <span class="hljs-keyword">int</span> absolut;
+  <span class="hljs-keyword">char</span> key;
+  
+  video.open(<span class="hljs-number">0</span>); 
+  <span class="hljs-keyword">if</span>(!video.isOpened()) 
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  width=video.get(CV_CAP_PROP_FRAME_WIDTH);
+  height=video.get(CV_CAP_PROP_FRAME_HEIGHT);
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"largura="</span> &lt;&lt; width &lt;&lt; <span class="hljs-string">"\n"</span>;;
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"altura ="</span> &lt;&lt; height&lt;&lt; <span class="hljs-string">"\n"</span>;;
+
+  namedWindow(<span class="hljs-string">"filtroespacial"</span>,<span class="hljs-number">1</span>);
+
+  mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, media); 
+  scaleAdd(mask, <span class="hljs-number">1</span>/<span class="hljs-number">9.0</span>, Mat::zeros(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,CV_32F), mask1);
+  swap(mask, mask1);
+  absolut=<span class="hljs-number">1</span>; <span class="hljs-comment">// calcs abs of the image</span>
+
+  menu();
+  <span class="hljs-keyword">for</span>(;;){
+    video &gt;&gt; cap; 
+    cvtColor(cap, frame, CV_BGR2GRAY);
+    flip(frame, frame, <span class="hljs-number">1</span>);
+    imshow(<span class="hljs-string">"original"</span>, frame);
+    frame.convertTo(frame32f, CV_32F);
+    filter2D(frame32f, frameFiltered, frame32f.depth(), mask, Point(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>), <span class="hljs-number">0</span>);
+    mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, gauss);
+    filter2D(frame32f, frameFiltered, frame32f.depth(), mask, Point(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>), <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span>(absolut){
+      frameFiltered=<span class="hljs-built_in">abs</span>(frameFiltered);
+    }
+    frameFiltered.convertTo(result, CV_8U);
+    imshow(<span class="hljs-string">"filtroespacial"</span>, result);
+    key = <span class="hljs-string">'l'</span>;
+    <span class="hljs-keyword">if</span>( key == <span class="hljs-number">27</span> ) <span class="hljs-keyword">break</span>; <span class="hljs-comment">// esc pressed!</span>
+    <span class="hljs-keyword">switch</span>(key){
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'a'</span>:
+	  menu();
+      absolut=!absolut;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'m'</span>:
+	  menu();
+      mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, media);
+      scaleAdd(mask, <span class="hljs-number">1</span>/<span class="hljs-number">9.0</span>, Mat::zeros(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,CV_32F), mask1);
+      mask = mask1;
+      printmask(mask);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'g'</span>:
+	  menu();
+      mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, gauss);
+      scaleAdd(mask, <span class="hljs-number">1</span>/<span class="hljs-number">16.0</span>, Mat::zeros(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,CV_32F), mask1);
+      mask = mask1;
+      printmask(mask);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'h'</span>:
+	  menu();
+      mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, horizontal);
+      printmask(mask);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'v'</span>:
+	  menu();
+      mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, vertical);
+      printmask(mask);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'l'</span>:
+	  menu();
+      mask = Mat(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, CV_32F, laplacian);
+      printmask(mask);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">break</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h2 id="61-exercicios">6.1. Exercícios</h2>
+<p>todo</p>
+<h2 id="72-exercicios">7.2. Exercícios</h2>
+<p>todo</p>
+<h2 id="83-exercicios">8.3. Exercícios</h2>
+<p>todo</p>
+<h2 id="92-exercicios">9.2. Exercícios</h2>
+<p>todo</p>
+
+    </body>
+    </html>
