@@ -350,7 +350,7 @@ bool motionDetected(Mat beforeHist, Mat afterHist){
 
 * Utilizando o programa exemplos/filtroespacial.cpp como referência, implemente um programa laplgauss.cpp. O programa deverá acrescentar mais uma funcionalidade ao exemplo fornecido, permitindo que seja calculado o laplaciano do gaussiano das imagens capturadas. Compare o resultado desse filtro com a simples aplicação do filtro laplaciano.
 
-Para este problema, é uma simples questão de passar o filtro de laplace na imagem resultante apos aplicar o filtro de gauss.
+Para a resolução desse problema, a estratégia adotada foi utilizar uma nova máscara (lpgss) 5x5 obtida através da derivada a segunda do gradiente do gaussiano e aplicando-a diretamente, o efeito resultante é o laplaciano do gaussiano. 
 
 ~~~~C++
 #include <iostream>
