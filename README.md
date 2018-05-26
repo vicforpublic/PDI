@@ -515,4 +515,81 @@ todo
 
 ## 9.2. Exercícios
 
-todo
+* Utilizando o programa kmeans.cpp como exemplo prepare um programa exemplo onde a execução do código se dê usando o parâmetro nRodadas=1 e inciar os centros de forma aleatória usando o parâmetro KMEANS_RANDOM_CENTERS ao invés de KMEANS_PP_CENTERS. Realize 10 rodadas diferentes do algoritmo e compare as imagens produzidas. Explique porque elas podem diferir tanto.
+
+Sempre haverá variação no resultado final da figura, mesmo que usemos o algorítimo proposto por Arthur, kmeans++, pois apesar de existir um controle maior na escolha inicial dos centros, o valor inicial para inicio do algorítimo ainda é aleatorio. Podemos reproduzir 10 imagens adicionando um laço for ao redor do codigo e fazendo algumas pequenas modificações:
+
+~~~~C++
+
+#include <opencv2/opencv.hpp>
+#include <cstdlib>
+
+using namespace cv;
+
+int main( int argc, char** argv ){
+for(int etapa = 0; etapa<10; etapa++){
+  int nClusters = 10;
+  Mat rotulos;
+  int nRodadas = 1;
+  Mat centros;
+
+  if(argc!=3){
+	exit(0);
+  }
+  
+  Mat img = imread( argv[1], IMREAD_COLOR);
+/*
+* matriz (imagem) cujo numero de linhas é igual ao numero de pixels da imagem de entrada
+* (img.cols * img.rows) e 3 colunas para armazenar R,G,B desses pixels. aqui ela é  
+* inicializada com 0s
+*/
+  Mat samples(img.rows * img.cols, 3, CV_32F);
+
+/*
+* passing the pixels to the samples matrix
+*/
+  for( int y = 0; y < img.rows; y++ ){
+    for( int x = 0; x < img.cols; x++ ){
+      for( int z = 0; z < 3; z++){
+        samples.at<float>(y + x*img.rows, z) = img.at<Vec3b>(y,x)[z];
+	  }
+	}
+  }
+  
+  kmeans(samples,
+		 nClusters,
+		 rotulos,
+		 TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 10000, 0.0001),
+		 nRodadas,
+		 KMEANS_PP_CENTERS,
+		 centros );
+
+
+  Mat rotulada( img.size(), img.type() );
+  for( int y = 0; y < img.rows; y++ ){
+    for( int x = 0; x < img.cols; x++ ){ 
+	  int indice = rotulos.at<int>(y + x*img.rows,0);
+	  rotulada.at<Vec3b>(y,x)[0] = (uchar) centros.at<float>(indice, 0);
+	  rotulada.at<Vec3b>(y,x)[1] = (uchar) centros.at<float>(indice, 1);
+	  rotulada.at<Vec3b>(y,x)[2] = (uchar) centros.at<float>(indice, 2);
+	}
+  }
+
+  imshow( "clustered image", rotulada );
+	std::string nome = argv[2];
+	nome.append(std::to_string(etapa));
+	nome.append(".jpeg");
+  imwrite(nome, rotulada);
+  waitKey( 0 );
+}
+
+}
+
+~~~~
+
+O resultado final sao 10 imagens ligeiramente diferentes. Note que mudamos o numero de clusters para 10, assim, pequenas mudanças na decisão do cluster mais proximo podem ser mais bem percebidas. Se mudarmos o trecho KMEANS_PP_CENTERS para uma escolha aleatoria dos centros usando KMEANS_RANDOM_CENTERS, obtemos uma variação muito maior nas imagens de saída pois cada centro irá se deslocar um numero limitado de vezes antes do fim do algorítmo, e como eles sao inicializados com valores aleatórios, acabam chegando ao final da computação com valores diferentes. Podemos exemplificar esse resultado abaixo:
+
+Exemplo de entrada e saída:
+Imagem 1             |  Imagem 2
+:-------------------------:|:-------------------------:
+![kmeans1](imgs/kmeans1.jpeg)  |  ![kmeans2](imgs/kmeans2.jpeg)
