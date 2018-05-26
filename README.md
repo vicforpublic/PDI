@@ -589,7 +589,7 @@ for(int etapa = 0; etapa<10; etapa++){
 
 O resultado final sao 10 imagens ligeiramente diferentes. Note que mudamos o numero de clusters para 10, assim, pequenas mudanças na decisão do cluster mais proximo podem ser mais bem percebidas. Se mudarmos o trecho KMEANS_PP_CENTERS para uma escolha aleatoria dos centros usando KMEANS_RANDOM_CENTERS, obtemos uma variação muito maior nas imagens de saída pois cada centro irá se deslocar um numero limitado de vezes antes do fim do algorítmo, e como eles sao inicializados com valores aleatórios, acabam chegando ao final da computação com valores diferentes. Podemos exemplificar esse resultado abaixo:
 
-Exemplo de entrada e saída:
+Exemplo de saídas:
 Imagem 1             |  Imagem 2
 :-------------------------:|:-------------------------:
 ![kmeans1](imgs/kmeans1.jpeg)  |  ![kmeans2](imgs/kmeans2.jpeg)
