@@ -709,6 +709,9 @@ int main(){
 }
 ~~~~
 
+A imagem utilizada foi a seguinte:
+![cena](flash.jpg)
+
 ## 8.3. Exercícios
 
 todo
