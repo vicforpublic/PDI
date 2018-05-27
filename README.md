@@ -714,7 +714,7 @@ A imagem utilizada foi a seguinte:
 
 Tratando a imagem em tons de cinza e aplicando o filtro, obtemos:
 
-![in](imgs/Original_homomorficopng) | ![out](imgs/Homomorfico_screenshot_27.05.2018.png)
+![in](imgs/Original_homomorfico.png) | ![out](imgs/Homomorfico_screenshot_27.05.2018.png)
 
 ## 8.3. Exercícios
 
