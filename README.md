@@ -710,7 +710,7 @@ int main(){
 ~~~~
 
 A imagem utilizada foi a seguinte:
-![cena](flash.jpg)
+![cena](imgs/flash.jpg)
 
 ## 8.3. Exercícios
 
