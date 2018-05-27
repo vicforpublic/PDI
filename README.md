@@ -712,6 +712,10 @@ int main(){
 A imagem utilizada foi a seguinte:
 ![cena](imgs/flash.jpg)
 
+Tratando a imagem em tons de cinza e aplicando o filtro, obtemos:
+
+![in](imgs/Original_homomorficopng) | ![out](imgs/Homomorfico_screenshot_27.05.2018.png)
+
 ## 8.3. Exercícios
 
 todo
